@@ -69,5 +69,26 @@ class App extends Component {
     );
   }
 }
+// Before (incorrect)
+useEffect(() => {
+  fetchUserData();
+}, []);
 
+// After (correct)
+useEffect(() => {
+  const fetchData = async () => {
+    const data = await fetchUserData();
+    setUser(data);
+  };
+  fetchData();
+}, [fetchUserData]);
+const MemoizedPost = React.memo(PostItem);
+PostList.propTypes = {
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
 export default App;
